@@ -4,7 +4,8 @@
     "port": 1433,
     "username": "sa",
     "password": "Puruca2009*",
-    "database": "GOBARBER",
+    "database": "gobarber",
+    "schema": "gobarber",
     "migrations": [
         "./src/database/migrations/*.ts"
     ],
