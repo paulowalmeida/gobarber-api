@@ -1,11 +1,14 @@
 {
-    "type": "mssql",
+    "type": "postgres",
     "host": "localhost",
-    "port": 1433,
-    "username": "sa",
-    "password": "Puruca2009*",
+    "port": 5432,
+    "username": "postgres",
+    "password": "123456",
     "database": "gobarber",
     "schema": "gobarber",
+    "entities": [
+        "./src/models/*.ts"
+    ],
     "migrations": [
         "./src/database/migrations/*.ts"
     ],

@@ -1,6 +1,6 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table, TableIndex} from "typeorm";
 
-export class CreateAppointments1591885597849 implements MigrationInterface {
+export class CreateAppointment1591922544439 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.createTable(
@@ -11,7 +11,8 @@ export class CreateAppointments1591885597849 implements MigrationInterface {
                         name: 'id',
                         type: 'varchar',
                         isPrimary: true,
-                        generationStrategy: 'uuid'
+                        generationStrategy: 'uuid',
+                        default: 'uuid_generate_v4()'
                     },
                     {
                         name: 'provider',
@@ -20,16 +21,21 @@ export class CreateAppointments1591885597849 implements MigrationInterface {
                     },
                     {
                         name: 'date',
-                        type: 'datetime',
+                        type: 'timestamp with time zone',
                         isNullable: false
                     }
                 ]
             })
-        )
+        );
+
+        await queryRunner.createIndex('appointment', new TableIndex({
+            name: "IDX_ID_PROVIDER",
+            columnNames: ["id", "provider"]
+        }));
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.dropTable('appointment');
     }
-
 }
+
