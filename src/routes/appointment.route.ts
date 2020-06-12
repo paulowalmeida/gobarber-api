@@ -6,21 +6,21 @@ import {getCustomRepository} from "typeorm";
 
 const appointmentsRouter = Router();
 
-appointmentsRouter.get('/', async (request, response) => {
+appointmentsRouter.get('/', async (req, res) => {
     const appointmentsRepository = getCustomRepository(AppointmentsRepository);
     const appointments = await appointmentsRepository.find();
-    return response.json(appointments);
+    return res.json(appointments);
 });
 
-appointmentsRouter.post('/', async (request, response) => {
+appointmentsRouter.post('/', async (req, res) => {
     try {
-        const {provider, date} = request.body;
+        const {providerId, date} = req.body;
         const parsedDate = parseISO(date);
         const createService = new CreateAppointmentService();
-        const appointment = await createService.execute({provider, date: parsedDate})
-        response.json(appointment);
+        const appointment = await createService.execute({providerId, date: parsedDate})
+        res.json(appointment);
     } catch (e) {
-        return response.status(400).json({error: e.message});
+        return res.status(400).json({error: e.message});
     }
 });
 
