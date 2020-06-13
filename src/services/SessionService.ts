@@ -1,9 +1,8 @@
 import {getCustomRepository} from "typeorm";
 import UsersRepository from "../repositories/UsersRepository";
-import {compare} from "bcryptjs";
+import {compare} from 'bcryptjs';
 import SessionResponseDTO from "../models/dtos/SessionResponseDTO";
-
-
+import { sign, verify } from 'jsonwebtoken';
 
 class SessionService {
     public async execute({email, password}: SessionDTO): Promise<SessionResponseDTO> {
@@ -20,7 +19,12 @@ class SessionService {
             throw new Error('Incorrect email/password combination');
         }
 
-        return {user};
+        const token = sign({}, 'b0f82de7c91b8881f0d7e8e6c41c4107', {
+            subject: user.id,
+            expiresIn: '1d'
+        });
+
+        return {user, token};
     }
 }
 
