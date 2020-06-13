@@ -1,6 +1,6 @@
 import {Router} from "express";
 import {getCustomRepository} from "typeorm";
-import UsesRepository from "../repositories/UsersRepository";
+import UsersRepository from "../repositories/UsersRepository";
 import {hash} from 'bcryptjs';
 import CreateUserService from "../services/CreateUserService";
 
@@ -8,7 +8,7 @@ import CreateUserService from "../services/CreateUserService";
 const usesRouter = Router();
 
 usesRouter.get('/', async (req, res) => {
-    const repository = getCustomRepository(UsesRepository);
+    const repository = getCustomRepository(UsersRepository);
     const users = await repository.find();
     return res.json(users);
 });

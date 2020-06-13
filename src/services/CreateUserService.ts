@@ -1,12 +1,12 @@
 import {getCustomRepository} from "typeorm";
 import {RequestUserDTO} from "../models/dtos/RequestUserDTO";
 import User from "../models/User";
-import UsesRepository from "../repositories/UsersRepository";
+import UsersRepository from "../repositories/UsersRepository";
 
 class CreateUserService {
 
     public async execute({name, email, password}: RequestUserDTO): Promise<User | null> {
-        const repository = getCustomRepository(UsesRepository);
+        const repository = getCustomRepository(UsersRepository);
         const checkUseExists = await repository.findOne({where: {email}});
 
         if (checkUseExists){
