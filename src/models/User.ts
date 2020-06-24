@@ -23,6 +23,9 @@ class User {
 
     @CreateDateColumn()
     disabledAt: Date;
+
+    @Column()
+    avatar: string;
 }
 
 export default User;
