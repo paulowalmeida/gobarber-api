@@ -18,32 +18,24 @@ usesRouter.get('/', async (request, response) => {
 });
 
 usesRouter.post('/', async (request, response) => {
-    try {
-        const {name, email, password} = request.body;
-        const service = new CreateUserService();
-        const hashedPassword = await hash(password, 8);
-        const user = await service.execute({name, email, password: hashedPassword});
-        delete user?.password;
-        return response.json(user);
-    } catch (e) {
-        return response.status(400).json({error: e.message});
-    }
+    const {name, email, password} = request.body;
+    const service = new CreateUserService();
+    const hashedPassword = await hash(password, 8);
+    const user = await service.execute({name, email, password: hashedPassword});
+    delete user?.password;
+    return response.json(user);
 });
 
 usesRouter.patch('/avatar', ensureAuthenticated, upload.single('avatar'),
     async (request, response) => {
 
-        try {
-            const service = new UpdateUserAvatarService();
-            const {user: {id}, file: {filename}} = request;
+        const service = new UpdateUserAvatarService();
+        const {user: {id}, file: {filename}} = request;
 
-            const user = await service.execute({id, filename});
-            delete user.password;
-            return response.json(user);
+        const user = await service.execute({id, filename});
+        delete user.password;
+        return response.json(user);
 
-        } catch (e) {
-            return response.status(400).json({error: e.message});
-        }
     });
 
 export default usesRouter;

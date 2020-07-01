@@ -2,6 +2,7 @@ import {getCustomRepository} from "typeorm";
 import {RequestUserDTO} from "../models/dtos/RequestUserDTO";
 import User from "../models/User";
 import UsersRepository from "../repositories/UsersRepository";
+import AppError from "../errors/AppError";
 
 class CreateUserService {
 
@@ -10,7 +11,7 @@ class CreateUserService {
         const checkUseExists = await repository.findOne({where: {email}});
 
         if (checkUseExists){
-            throw new Error('Email address already used.');
+            throw new AppError('Email address already used.');
         }
 
         const user = repository.create({name, email, password});
